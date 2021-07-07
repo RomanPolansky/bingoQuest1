@@ -8,22 +8,26 @@ function appTick(app, container, ballRack, board) {
         time += deltaTime
         TWEEN.update(time)
     })
-
-    let hc = 0
-    let handObj
-    let timeEnd
-    let interval = setInterval(()=>{
-        if (hc <= 2){
-            handObj = new handSupport()
-            hc++
-        } else {
-            pShot()
-            clearInterval(interval)
-        }
-    }, 5000)
-    
-
     let moveCount = 0
+    let handSupportObj
+    let tickInterval = 5000,
+        tickCount = 2
+    let tickFunction = () => {
+        if (tickCount >= 0) {
+            tickInterval -= app.ticker.deltaMS
+            if (tickInterval <= 0) {
+                tickCount--
+                tickInterval = 5000
+                if (tickCount >= 0){ handSupportObj = new handSupport() }
+            }
+        } else {
+            app.ticker.remove(tickFunction)
+            pShot()
+        }
+    }
+    app.ticker.add(tickFunction)
+
+    
     let [step, defaultStep] = [ballRack.rickStep, ballRack.rickStep]
     let [lastStep, defaultLastStep] = [ballRack.lastStep, ballRack.lastStep]
 
@@ -35,18 +39,12 @@ function appTick(app, container, ballRack, board) {
                 if ( isClicked && lastClick ) {
                     isClicked = false
 
-                    clearInterval(interval)
-                    if (handObj !== null && handObj !== undefined){
-                        handObj.end()
-                        handObj = null
+                    tickCount = 2
+                    tickInterval = 5000
+                    if (handSupportObj !== undefined) {
+                        handSupportObj.end()
                     }
-                    if (timeEnd !== undefined && timeEnd !== null){
-                        clearTimeout(timeEnd)
-                    }
-                    timeEnd = setTimeout(()=>{
-                        pShot()
-                    }, 10000)
-
+                    
                     let daubFig = new Sprite( Loader.shared.resources['assets/ss.json'].textures['daub.png'] )
                         daubFig.scale.set(0.1, 0.1)
                         daubFig.anchor.set(0.5, 0.5)
@@ -104,7 +102,6 @@ function appTick(app, container, ballRack, board) {
             }
         }
     }
-
     function newBallScale() {
         let lastRitem = container.children[container.children.length - 1].children
         let circleScale = lastRitem[0]
@@ -117,8 +114,6 @@ function appTick(app, container, ballRack, board) {
         new TWEEN.Tween(numScale).to({ scale : { x : 1, y : 1 } }, 300).easing(TWEEN.Easing.Back.Out).start(time)
         isClicked = true
     }
-
-
     function bingoAnim() {
         for (let i = 0; i < 5; i++) {
             let bingo = new Sprite( Loader.shared.resources['assets/ss.json'].textures['bingo.png'] )
@@ -208,22 +203,18 @@ function appTick(app, container, ballRack, board) {
             new TWEEN.Tween(letterArr[i]).to({ scale : { x : 0.8, y : 0.8 } }, 200).delay(i * 80).start(time)
         }
         setTimeout(()=>{pShot()}, 1200)
-        
     }
 
     function pShot() {
-        if (timeEnd !== undefined && timeEnd !== null){
-            clearTimeout(timeEnd)
-        }
         new TWEEN.Tween(container).to({ alpha : 0 }, 200).start(time).onComplete(() => {
             let bg = new Sprite( Loader.shared.resources['assets/ss.json'].textures['packshot.png'] )
             bg.alpha = 0
-            bg.scale.set(0.47)
+            bg.scale.set(0.48)
             bg.anchor.set(0.5)
             bg.x = app.view.width/2
             bg.y = 540
             app.stage.addChild(bg)
-            new TWEEN.Tween(bg).to({ alpha : 1 }, 300).start(time)
+            new TWEEN.Tween(bg).to({ alpha : 1 }, 400).start(time)
 
             let logo = new Sprite( Loader.shared.resources['assets/ss.json'].textures['logo.png'] )
             logo.scale.set(0.8)
@@ -244,14 +235,14 @@ function appTick(app, container, ballRack, board) {
             app.ticker.add(()=>{
                 spark.rotation += 0.008
             })
-            new TWEEN.Tween(spark).to({ alpha : 0.6 }, 300).yoyo(true).repeat(Infinity).start(time)
+            new TWEEN.Tween(spark).to({ alpha : 0.6 }, 400).yoyo(true).repeat(Infinity).start(time)
 
             let chest = new Sprite( Loader.shared.resources['assets/ss.json'].textures['chest.png'] )
             chest.alpha = 0
             chest.scale.set(0.47)
             chest.anchor.set(0.5)
             chestCont.addChild(chest)
-            new TWEEN.Tween(chest).to({ alpha : 1 }, 300).start(time)
+            new TWEEN.Tween(chest).to({ alpha : 1 }, 400).start(time)
 
             let light = new Sprite( Loader.shared.resources['assets/ss.json'].textures['light.png'] )
             light.x = 30
@@ -312,48 +303,54 @@ function appTick(app, container, ballRack, board) {
     }
 
     function handSupport() {
-        
-
         let handCont = new Container()
         let hand      = new Sprite( Loader.shared.resources['assets/hand.png'].texture ),
             handClick = new Sprite( Loader.shared.resources['assets/handClick.png'].texture )
+
+        let startX = 535,
+            startY = 300,
+            endX = 0,
+            endY = 0,
+            canStart = true
 
         handClick.alpha = 0
         handCont.addChild(handClick)
         handCont.addChild(hand)
         handCont.scale.set(0.4)
-        handCont.y = 300
-        handCont.x = 535
+        handCont.x = startX
+        handCont.y = startY
 
         handCont.alpha = 0
         app.stage.addChild(handCont)
-        
-        new TWEEN.Tween(handCont).to({ alpha : 1 }, 400).start(time)
-        new TWEEN.Tween(handCont).to({ y : 90, x : 530 }, 650).start(time).onComplete(()=>{
-            new TWEEN.Tween(handCont).to({ y : 140 }, 300).yoyo(true).repeat(1).start(time).onComplete(()=>{
-                new TWEEN.Tween(handCont).to({ y : 360, x : 315 }, 800).start(time).onComplete(()=>{
-                    hand.alpha = !hand.alpha
-                    handClick.alpha = !handClick.alpha
-                    setTimeout(()=>{
-                        hand.alpha = !hand.alpha
-                        handClick.alpha = !handClick.alpha
-                        new TWEEN.Tween(handCont).to({ y : 340, x : 335 }, 300).yoyo(true).repeat(1).start(time).onComplete(()=>{
-                            hand.alpha = !hand.alpha
-                            handClick.alpha = !handClick.alpha
-                            setTimeout(()=>{
-                                hand.alpha = !hand.alpha
-                                handClick.alpha = !handClick.alpha
-                                new TWEEN.Tween(handCont).to({ y : 340, x : 335, alpha : 0 }, 350).start(time).onComplete(()=>{handCont.destroy()})
-                            }, 100)
-                        })
-                    }, 80)
+
+        switch (moveCount) {
+            case 0:
+                endX = 315; endY = 360
+                break;
+            case 1:
+                endX = 470; endY = 520
+                break;
+            case 2:
+                endX = 155; endY = 440
+                break;
+            case 3:
+                canStart = false
+                break;
+            default:
+                canStart = false
+                break;
+        }
+
+        if (canStart) {
+            new TWEEN.Tween(handCont).to({ alpha : 1 }, 200).start(time)
+            new TWEEN.Tween(handCont).to({ x : endX, y : endY }, 650).start(time).onComplete(()=>{
+                new TWEEN.Tween(handCont).to({ x : endX+30, y : endY-30 }, 350).yoyo(true).repeat(2).start(time).onComplete(()=>{
+                    new TWEEN.Tween(handCont).to({ alpha : 0 }, 200).start(time).onComplete(()=>{})
                 })
             })
-        })
-        //
+        }
         handSupport.prototype.end = () => { handClick.destroy(); hand.destroy() }
     }
 }
-
 
 export default appTick

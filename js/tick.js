@@ -221,8 +221,7 @@ function appTick(app, container, ballRack, board) {
         new TWEEN.Tween(container).to({ alpha : 0 }, 200).start(time).onComplete(() => {
             let bg = new Sprite( Loader.shared.resources['assets/ss.json'].textures['packshot.png'] )
             bg.alpha = 0
-            bg.scale.set(0.48)
-            bg.anchor.set(0.5)
+            bg.scale.set(0.95)
             bg.x = app.view.width/2
             bg.y = 540
             app.stage.addChild(bg)
@@ -316,7 +315,7 @@ function appTick(app, container, ballRack, board) {
 
     function handSupport() {
         let handCont = new Container()
-        let hand      = new Sprite( Loader.shared.resources['assets/hand.png'].texture )
+        let hand      = new Sprite( Loader.shared.resources['assets/ss.json'].textures['hand.png'] )
 
         let startX = 535,
             startY = 300,

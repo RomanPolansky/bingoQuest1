@@ -21,7 +21,7 @@ function Board(cvs) {
             let item = new Text( boardArray[i][j], {
                 fontSize: 46,
                 fontWeight: 600,
-                padding: 5
+                padding: 10
             } )
             item.anchor.set(0.5, 0.5)
             item.x = coord.x

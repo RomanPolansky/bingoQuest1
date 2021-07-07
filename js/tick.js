@@ -18,16 +18,28 @@ function appTick(app, container, ballRack, board) {
             if (tickInterval <= 0) {
                 tickCount--
                 tickInterval = 5000
-                if (tickCount >= 0){ handSupportObj = new handSupport() }
+                if (tickCount >= 0){ handSupportObj = new handSupport(); ballScaleAnim() }
             }
         } else {
-            app.ticker.remove(tickFunction)
             pShot()
+            console.log('SSS')
         }
     }
     app.ticker.add(tickFunction)
 
     
+    function ballScaleAnim() {
+        if (ballRack.ballsArray.length == 6) {
+            let b = ballRack.ballsArray[5].children[0]
+            let n = ballRack.ballsArray[5].children[1]
+            new TWEEN.Tween(b).to({ scale : { x : 0.5, y : 0.5 } }, 350).yoyo(true).repeat(1).start(time)
+            new TWEEN.Tween(n).to({ scale : { x : 1.15, y : 1.15 } }, 350).yoyo(true).repeat(1).start(time)
+        }
+    }
+    ballScaleAnim()
+
+
+
     let [step, defaultStep] = [ballRack.rickStep, ballRack.rickStep]
     let [lastStep, defaultLastStep] = [ballRack.lastStep, ballRack.lastStep]
 
@@ -38,10 +50,10 @@ function appTick(app, container, ballRack, board) {
             if (board.itemsArray[i].text == newDaubArray[moveCount]){
                 if ( isClicked && lastClick ) {
                     isClicked = false
-
+                    
                     tickCount = 2
                     tickInterval = 5000
-                    if (handSupportObj !== undefined) {
+                    if (handSupportObj !== undefined && handSupportObj != null) {
                         handSupportObj.end()
                     }
                     
@@ -81,7 +93,7 @@ function appTick(app, container, ballRack, board) {
 
             let lastItemScale = ballRack.ballsArray[ballRack.ballsArray.length - 1].children[0]
             if (lastItemScale.scale._x > 0.36){
-                new TWEEN.Tween(lastItemScale).to({ scale : { x : 0.36, y : 0.36 } }, 300).start(time)
+                new TWEEN.Tween(lastItemScale).to({ scale : { x : 0.36, y : 0.36 } }, 300).start(time).onComplete(()=>{isClicked = true; lastItemScale.scale.set(0.36)})
             }
             lastStep -= 3.2
         }
@@ -112,7 +124,6 @@ function appTick(app, container, ballRack, board) {
 
         new TWEEN.Tween(circleScale).to({ scale : { x : 0.44, y : 0.44 } }, 300).easing(TWEEN.Easing.Back.Out).start(time)
         new TWEEN.Tween(numScale).to({ scale : { x : 1, y : 1 } }, 300).easing(TWEEN.Easing.Back.Out).start(time)
-        isClicked = true
     }
     function bingoAnim() {
         for (let i = 0; i < 5; i++) {
@@ -206,6 +217,7 @@ function appTick(app, container, ballRack, board) {
     }
 
     function pShot() {
+        app.ticker.remove(tickFunction)
         new TWEEN.Tween(container).to({ alpha : 0 }, 200).start(time).onComplete(() => {
             let bg = new Sprite( Loader.shared.resources['assets/ss.json'].textures['packshot.png'] )
             bg.alpha = 0
@@ -304,8 +316,7 @@ function appTick(app, container, ballRack, board) {
 
     function handSupport() {
         let handCont = new Container()
-        let hand      = new Sprite( Loader.shared.resources['assets/hand.png'].texture ),
-            handClick = new Sprite( Loader.shared.resources['assets/handClick.png'].texture )
+        let hand      = new Sprite( Loader.shared.resources['assets/hand.png'].texture )
 
         let startX = 535,
             startY = 300,
@@ -313,8 +324,6 @@ function appTick(app, container, ballRack, board) {
             endY = 0,
             canStart = true
 
-        handClick.alpha = 0
-        handCont.addChild(handClick)
         handCont.addChild(hand)
         handCont.scale.set(0.4)
         handCont.x = startX
@@ -349,7 +358,7 @@ function appTick(app, container, ballRack, board) {
                 })
             })
         }
-        handSupport.prototype.end = () => { handClick.destroy(); hand.destroy() }
+        handSupport.prototype.end = () => { hand.alpha = 0; handCont.alpha = 0 }
     }
 }
 

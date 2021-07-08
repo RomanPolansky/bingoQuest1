@@ -1,13 +1,13 @@
-import { Sprite, Loader } from './alias.js'
+import { Sprite, Loader, jsonSS } from './alias.js'
 
 function Logo(container, board) {
-    let logo = new Sprite( Loader.shared.resources['assets/ss.json'].textures['logo.png'] )
+    let logo = new Sprite( Loader.shared.resources[jsonSS].textures['logo.png'] )
     logo.anchor.set(0.5)
     logo.scale.set(0.4)
     logo.x = board.x + board.width/2 + logo.width/2
     logo.y = board.y + board.width + 50 + logo.height/2
     container.addChild(logo)
-    let button = new Sprite( Loader.shared.resources['assets/ss.json'].textures['buttonPS.png'] )
+    let button = new Sprite( Loader.shared.resources[jsonSS].textures['buttonPS.png'] )
     button.anchor.set(0.5)
     button.scale.set(0.4)
     button.x = logo.x

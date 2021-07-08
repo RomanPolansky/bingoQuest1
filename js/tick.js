@@ -1,5 +1,5 @@
 import { newDaubArray, bingoData } from './data.js'
-import { Loader, Sprite, Container } from './alias.js'
+import { Loader, Sprite, Container, jsonSS } from './alias.js'
 
 function appTick(app, container, ballRack, board) {
     let time = 0
@@ -22,7 +22,6 @@ function appTick(app, container, ballRack, board) {
             }
         } else {
             pShot()
-            console.log('SSS')
         }
     }
     app.ticker.add(tickFunction)
@@ -32,13 +31,11 @@ function appTick(app, container, ballRack, board) {
         if (ballRack.ballsArray.length == 6) {
             let b = ballRack.ballsArray[5].children[0]
             let n = ballRack.ballsArray[5].children[1]
-            new TWEEN.Tween(b).to({ scale : { x : 0.5, y : 0.5 } }, 350).yoyo(true).repeat(1).start(time)
-            new TWEEN.Tween(n).to({ scale : { x : 1.15, y : 1.15 } }, 350).yoyo(true).repeat(1).start(time)
+            new TWEEN.Tween(b).to({ scale : { x : 0.5, y : 0.5 } }, 280).yoyo(true).repeat(1).start(time)
+            new TWEEN.Tween(n).to({ scale : { x : 1.15, y : 1.15 } }, 280).yoyo(true).repeat(1).start(time)
         }
     }
     ballScaleAnim()
-
-
 
     let [step, defaultStep] = [ballRack.rickStep, ballRack.rickStep]
     let [lastStep, defaultLastStep] = [ballRack.lastStep, ballRack.lastStep]
@@ -57,7 +54,7 @@ function appTick(app, container, ballRack, board) {
                         handSupportObj.end()
                     }
                     
-                    let daubFig = new Sprite( Loader.shared.resources['assets/ss.json'].textures['daub.png'] )
+                    let daubFig = new Sprite( Loader.shared.resources[jsonSS].textures['daub.png'] )
                         daubFig.scale.set(0.1, 0.1)
                         daubFig.anchor.set(0.5, 0.5)
                         daubFig.x = board.itemsArray[i].x
@@ -127,7 +124,7 @@ function appTick(app, container, ballRack, board) {
     }
     function bingoAnim() {
         for (let i = 0; i < 5; i++) {
-            let bingo = new Sprite( Loader.shared.resources['assets/ss.json'].textures['bingo.png'] )
+            let bingo = new Sprite( Loader.shared.resources[jsonSS].textures['bingo.png'] )
             let item = bingoData['obj'+(i+1)].item
             bingo.anchor.set(0.5, 0.5)
             bingo.scale.set(0)
@@ -137,7 +134,7 @@ function appTick(app, container, ballRack, board) {
             new TWEEN.Tween(bingo).to({ scale : { x : 0.34, y : 0.34 } }, 200).start(time)
             
         }
-        let rect = new Sprite( Loader.shared.resources['assets/ss.json'].textures['rect.png'] )
+        let rect = new Sprite( Loader.shared.resources[jsonSS].textures['rect.png'] )
         rect.scale.set(0)
         rect.alpha = 0.82
         rect.x = bingoData['obj3'].item.x + 2
@@ -148,9 +145,9 @@ function appTick(app, container, ballRack, board) {
         
     }
     function sparkAnim(rect) {
-        let spark_1 = new Sprite( Loader.shared.resources['assets/ss.json'].textures['spark.png'] ),
-            spark_2 = new Sprite( Loader.shared.resources['assets/ss.json'].textures['spark.png'] ),
-            spark_3 = new Sprite( Loader.shared.resources['assets/ss.json'].textures['spark.png'] )
+        let spark_1 = new Sprite( Loader.shared.resources[jsonSS].textures['spark.png'] ),
+            spark_2 = new Sprite( Loader.shared.resources[jsonSS].textures['spark.png'] ),
+            spark_3 = new Sprite( Loader.shared.resources[jsonSS].textures['spark.png'] )
         let cont = new Container()
         let centerX = rect.x - 5
 
@@ -188,11 +185,11 @@ function appTick(app, container, ballRack, board) {
     }
     function bigLogoAnim() {
         let cont = new Container()
-        let the_B = new Sprite( Loader.shared.resources['assets/ss.json'].textures['B.png'] ),
-            the_I = new Sprite( Loader.shared.resources['assets/ss.json'].textures['I.png'] ),
-            the_N = new Sprite( Loader.shared.resources['assets/ss.json'].textures['N.png'] ),
-            the_G = new Sprite( Loader.shared.resources['assets/ss.json'].textures['G.png'] ),
-            the_O = new Sprite( Loader.shared.resources['assets/ss.json'].textures['O.png'] )
+        let the_B = new Sprite( Loader.shared.resources[jsonSS].textures['B.png'] ),
+            the_I = new Sprite( Loader.shared.resources[jsonSS].textures['I.png'] ),
+            the_N = new Sprite( Loader.shared.resources[jsonSS].textures['N.png'] ),
+            the_G = new Sprite( Loader.shared.resources[jsonSS].textures['G.png'] ),
+            the_O = new Sprite( Loader.shared.resources[jsonSS].textures['O.png'] )
         let letterArr = [ the_B, the_I, the_N, the_G, the_O ],
             gapArr = [45, 52, 80, 75]
 
@@ -219,7 +216,7 @@ function appTick(app, container, ballRack, board) {
     function pShot() {
         app.ticker.remove(tickFunction)
         new TWEEN.Tween(container).to({ alpha : 0 }, 200).start(time).onComplete(() => {
-            let bg = new Sprite( Loader.shared.resources['assets/ss.json'].textures['packshot.png'] )
+            let bg = new Sprite( Loader.shared.resources[jsonSS].textures['packshot.png'] )
             bg.alpha = 0
             bg.scale.set(0.95)
             bg.x = app.view.width/2
@@ -227,7 +224,7 @@ function appTick(app, container, ballRack, board) {
             app.stage.addChild(bg)
             new TWEEN.Tween(bg).to({ alpha : 1 }, 400).start(time)
 
-            let logo = new Sprite( Loader.shared.resources['assets/ss.json'].textures['logo.png'] )
+            let logo = new Sprite( Loader.shared.resources[jsonSS].textures['logo.png'] )
             logo.scale.set(0.8)
             logo.anchor.set(0.5)
             logo.x = app.view.width/2
@@ -236,30 +233,29 @@ function appTick(app, container, ballRack, board) {
 
             let chestCont = new Container()
 
-            let spark = new Sprite( Loader.shared.resources['assets/ss.json'].textures['spark.png'] )
+            let spark = new Sprite( Loader.shared.resources[jsonSS].textures['spark.png'] )
             spark.x = -15
             spark.y = -20
             spark.alpha = 0.45
             spark.scale.set(1.9)
-            spark.anchor.set(0.5)
             chestCont.addChild(spark)
             app.ticker.add(()=>{
                 spark.rotation += 0.008
             })
             new TWEEN.Tween(spark).to({ alpha : 0.6 }, 400).yoyo(true).repeat(Infinity).start(time)
 
-            let chest = new Sprite( Loader.shared.resources['assets/ss.json'].textures['chest.png'] )
+            let chest = new Sprite( Loader.shared.resources[jsonSS].textures['chest.png'] )
             chest.alpha = 0
-            chest.scale.set(0.47)
             chest.anchor.set(0.5)
+            chest.scale.set(0.47)
             chestCont.addChild(chest)
             new TWEEN.Tween(chest).to({ alpha : 1 }, 400).start(time)
 
-            let light = new Sprite( Loader.shared.resources['assets/ss.json'].textures['light.png'] )
+            let light = new Sprite( Loader.shared.resources[jsonSS].textures['light.png'] )
             light.x = 30
             light.y = -120
             light.alpha = 0.8
-            light.scale.set(0.47)
+            light.scale.set(0.9)
             light.anchor.set(0.5)
             chestCont.addChild(light)
             new TWEEN.Tween(light).to({ alpha : 1 }, 1000).yoyo(true).repeat(Infinity).start(time)
@@ -268,7 +264,7 @@ function appTick(app, container, ballRack, board) {
             chestCont.y = 440
             app.stage.addChild(chestCont)
 
-            let button = new Sprite( Loader.shared.resources['assets/ss.json'].textures['buttonPS.png'] )
+            let button = new Sprite( Loader.shared.resources[jsonSS].textures['buttonPS.png'] )
             button.alpha = 1
             button.scale.set(0.45)
             button.anchor.set(0.5)
@@ -291,7 +287,7 @@ function appTick(app, container, ballRack, board) {
                     let x = 62 * Math.random() ,
                         y = 20 * Math.random()
 
-                    let chestStar = new Sprite( Loader.shared.resources['assets/ss.json'].textures['chestStar.png'] )
+                    let chestStar = new Sprite( Loader.shared.resources[jsonSS].textures['chestStar.png'] )
                     chestStar.alpha = 0.8
                     chestStar.x = x0 + x*xZ
                     chestStar.y = y0 + y*yZ
@@ -315,7 +311,7 @@ function appTick(app, container, ballRack, board) {
 
     function handSupport() {
         let handCont = new Container()
-        let hand      = new Sprite( Loader.shared.resources['assets/ss.json'].textures['hand.png'] )
+        let hand      = new Sprite( Loader.shared.resources[jsonSS].textures['hand.png'] )
 
         let startX = 535,
             startY = 300,

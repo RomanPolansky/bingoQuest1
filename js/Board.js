@@ -1,8 +1,8 @@
-import { Sprite, Loader, Container, Text, Graphics } from './alias.js'
+import { Sprite, Loader, Container, Text, Graphics, jsonSS } from './alias.js'
 import { boardArray, orangeArray, heartArray, lockArray, daubArray, bingoData } from './data.js'
 
 function Board(cvs) {
-    let board = new Sprite( Loader.shared.resources['assets/ss.json'].textures['bingoboard.png'] )
+    let board = new Sprite( Loader.shared.resources[jsonSS].textures['bingoboard.png'] )
     board.scale.set(1.1, 1.1)
     board.x = cvs.width/2 - board.width/2
     board.y = cvs.height/2 - board.height/2 - (cvs.height/100)*5
@@ -49,7 +49,7 @@ function Board(cvs) {
             }
             for (let k = 0; k < heartArray.length; k++) {
                 if (boardArray[i][j] === heartArray[k]) {
-                    let heartFig = new Sprite( Loader.shared.resources['assets/ss.json'].textures['heart.png'] )
+                    let heartFig = new Sprite( Loader.shared.resources[jsonSS].textures['heart.png'] )
                     heartFig.scale.set(0.85)
                     heartFig.anchor.set(0.5, 0.5)
                     heartFig.x = item.x
@@ -59,7 +59,7 @@ function Board(cvs) {
             }
             for (let k = 0; k < lockArray.length; k++) {
                 if (boardArray[i][j] === lockArray[k]) {
-                    let lockFig = new Sprite( Loader.shared.resources['assets/ss.json'].textures['lock.png'] )
+                    let lockFig = new Sprite( Loader.shared.resources[jsonSS].textures['lock.png'] )
                     lockFig.scale.set(0.78)
                     lockFig.anchor.set(0.5, 0.5)
                     lockFig.x = item.x
@@ -72,7 +72,7 @@ function Board(cvs) {
 
             for (let k = 0; k < daubArray.length; k++) {
                 if (boardArray[i][j] === daubArray[k]) {
-                    let daubFig = new Sprite( Loader.shared.resources['assets/ss.json'].textures['daub.png'] )
+                    let daubFig = new Sprite( Loader.shared.resources[jsonSS].textures['daub.png'] )
                     daubFig.scale.set(0.55)
                     daubFig.anchor.set(0.5, 0.5)
                     daubFig.x = item.x

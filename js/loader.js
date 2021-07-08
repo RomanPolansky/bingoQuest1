@@ -1,8 +1,8 @@
-import { Loader } from './alias.js'
+import { Loader, jsonSS } from './alias.js'
 
 function loaderAdd(setup) {
     Loader.shared
-            .add('assets/ss.json')
+            .add(jsonSS)
             .load( setup )
 }
 export default loaderAdd

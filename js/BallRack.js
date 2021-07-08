@@ -1,10 +1,10 @@
-import { Sprite, Loader, Text, Container } from './alias.js'
-import { daubArray, newDaubArray, newBallColor } from './data.js'
+import { Sprite, Loader, Text, Container, jsonSS } from './alias.js'
+import { daubArray, newDaubArray, ballColor, newBallColor } from './data.js'
 import Ball from './Ball.js'
 
 function BallRack(app, board, container) {
-    let ballRack = new Sprite( Loader.shared.resources['assets/ss.json'].textures['ballrack.png'] )
-    let circleBar = new Sprite( Loader.shared.resources['assets/ss.json'].textures['circleBar.png'] )
+    let ballRack = new Sprite( Loader.shared.resources[jsonSS].textures['ballrack.png'] )
+    let circleBar = new Sprite( Loader.shared.resources[jsonSS].textures['circleBar.png'] )
 
     ballRack.scale.set(0.8, 0.8)
     circleBar.scale.set(0.8, 0.8)
@@ -30,7 +30,7 @@ function BallRack(app, board, container) {
         if (i === 5){
             let cont = new Container()
 
-            let ball = Ball(ballRack)
+            let ball = Ball(ballColor[i])
             ball.scale.set(0.44, 0.44)
             ball.x = circleBar.x + circleBar.width/2
             ball.y = ballRack.y + ballRack.height/2
@@ -47,7 +47,7 @@ function BallRack(app, board, container) {
         } else {
             let cont = new Container()
 
-            let ball = Ball(ballRack)
+            let ball = Ball(ballColor[i])
             ball.scale.set(0.36, 0.36)
             ball.x = ballRack.x + rickStep * (i+1)
             ball.y = ballRack.y + ballRack.height/2
@@ -68,12 +68,7 @@ function BallRack(app, board, container) {
         if (newDaubArray[moveCount] !== undefined) {
             let cont = new Container()
 
-            for(let key in newBallColor){
-                if( newBallColor[key] > 0) {
-                newBallColor[key]-- 
-                }
-            }
-            let ball = Ball(ballRack)
+            let ball = Ball(newBallColor[moveCount])
             ball.scale.set(0.44, 0.44)
             ball.x = circleBar.x + circleBar.width/2
             ball.y = ballRack.y + ballRack.height/2

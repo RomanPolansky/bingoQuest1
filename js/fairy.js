@@ -1,18 +1,18 @@
-import { Sprite, Loader, Container } from './alias.js'
+import { Sprite, Loader, Container, jsonSS } from './alias.js'
 
 function fairy(cont, app) {
-    let head      = new Sprite( Loader.shared.resources['assets/ss.json'].textures['head.png'] ),
-        headEC    = new Sprite( Loader.shared.resources['assets/ss.json'].textures['headEC.png'] ),
-        body      = new Sprite( Loader.shared.resources['assets/ss.json'].textures['body.png'] ),
-        hair      = new Sprite( Loader.shared.resources['assets/ss.json'].textures['hair.png'] ),
-        leftArm   = new Sprite( Loader.shared.resources['assets/ss.json'].textures['leftArm.png'] ),
-        leftFoot  = new Sprite( Loader.shared.resources['assets/ss.json'].textures['leftFoot.png'] ),
-        leftHand  = new Sprite( Loader.shared.resources['assets/ss.json'].textures['leftHand.png'] ),
-        leftWing  = new Sprite( Loader.shared.resources['assets/ss.json'].textures['leftWing.png'] ),
-        rightArm  = new Sprite( Loader.shared.resources['assets/ss.json'].textures['rightArm.png'] ),
-        rightFoot = new Sprite( Loader.shared.resources['assets/ss.json'].textures['rightFoot.png'] ),
-        rightHand = new Sprite( Loader.shared.resources['assets/ss.json'].textures['rightHand.png'] ),
-        rightWing = new Sprite( Loader.shared.resources['assets/ss.json'].textures['rightWing.png'] )
+    let head      = new Sprite( Loader.shared.resources[jsonSS].textures['head.png'] ),
+        headEC    = new Sprite( Loader.shared.resources[jsonSS].textures['headEC.png'] ),
+        body      = new Sprite( Loader.shared.resources[jsonSS].textures['body.png'] ),
+        hair      = new Sprite( Loader.shared.resources[jsonSS].textures['hair.png'] ),
+        leftArm   = new Sprite( Loader.shared.resources[jsonSS].textures['leftArm.png'] ),
+        leftFoot  = new Sprite( Loader.shared.resources[jsonSS].textures['leftFoot.png'] ),
+        leftHand  = new Sprite( Loader.shared.resources[jsonSS].textures['leftHand.png'] ),
+        leftWing  = new Sprite( Loader.shared.resources[jsonSS].textures['leftWing.png'] ),
+        rightArm  = new Sprite( Loader.shared.resources[jsonSS].textures['rightArm.png'] ),
+        rightFoot = new Sprite( Loader.shared.resources[jsonSS].textures['rightFoot.png'] ),
+        rightHand = new Sprite( Loader.shared.resources[jsonSS].textures['rightHand.png'] ),
+        rightWing = new Sprite( Loader.shared.resources[jsonSS].textures['rightWing.png'] )
     
     let fairyContainer = new Container
 

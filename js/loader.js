@@ -4,5 +4,6 @@ function loaderAdd(setup) {
     Loader.shared
             .add(jsonSS)
             .load( setup )
+            // я дописал
 }
 export default loaderAdd
